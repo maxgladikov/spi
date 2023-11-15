@@ -1,0 +1,50 @@
+
+plugins {
+    id 'application'
+}
+
+
+application {
+    mainClass = 'online.gladikov.spi.app.App'
+}
+
+
+ext { 
+    lombokVersion = "1.18.28"
+    jacocoVersion = "0.8.7"
+    jUnitVersion = "5.10.0"
+    logbackVersion = "1.4.11"
+}
+
+
+	
+	java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	dependencies{
+		implementation project(':iface')
+		implementation project(':lib')
+		annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+		implementation 'org.slf4j:slf4j-api:2.0.9'
+		implementation "ch.qos.logback:logback-core:$logbackVersion"
+		implementation "ch.qos.logback:logback-classic:$logbackVersion"
+		testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
+		testImplementation 'org.mockito:mockito-core:5.7.0'
+		testImplementation "ch.qos.logback:logback-core:$logbackVersion"
+		testImplementation "ch.qos.logback:logback-classic:$logbackVersion"
+		testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
+	}
+
+	test.useJUnitPlatform()
+
+
+
+	configurations {
+		compileOnly.extendsFrom annotationProcessor
+		testCompileOnly.extendsFrom annotationProcessor
+		testAnnotationProcessor.extendsFrom annotationProcessor
+	}
